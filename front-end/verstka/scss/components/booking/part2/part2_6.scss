@@ -1,0 +1,196 @@
+.booking_part2_6 {
+    h3 {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+    table {
+        border-collapse: collapse;
+
+        th {
+            border-bottom: 1px solid #a0a0a0;
+            background: rgba(#000, .05);
+        }
+
+        td, th {
+            padding: 10px 5px;
+            border-right: 1px solid #a0a0a0;
+        }
+
+        td:last-child, th:last-child {
+            border-right: none;
+        }
+
+        .time {
+            font-family: "Roboto Mono", serif;
+            display: flex;
+            align-items: center;
+
+            span {
+                font-family: "Roboto Mono", serif;
+                background: rgba(#000, .05);;
+                padding: 5px 2px;
+                border-radius: 3px;
+                font-size: 14px;
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .dateselect {
+        display: flex;
+        align-items: center;
+
+        p {
+            padding: 0 2px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        select {
+            text-align: center;
+            font-size: 16px;
+            font-family: "Roboto Mono", serif;
+            background: rgba(#000, .05);
+            border: solid 1px $border;
+            border-radius: 3px;
+        }
+
+        span {
+            margin-left: 5px;
+            display: flex;
+            font-family: "Roboto Mono", serif;
+            background: rgba(#000, .05);
+            padding: 5px 2px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+    }
+
+    .timeselect {
+        display: flex;
+        align-items: center;
+
+        p {
+            padding: 0 2px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        input {
+            text-align: center;
+            width: 25px;
+            font-size: 16px;
+            font-family: "Roboto Mono", serif;
+            background: rgba(#000, .05);
+            border: solid 1px $border;
+            border-radius: 3px;
+        }
+
+        .tz {
+            display: flex;
+            font-family: "Roboto Mono", serif;
+            background: rgba(#000, .05);
+            padding: 5px 2px;
+            border-radius: 3px;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+    }
+
+    .delete {
+        color: $btnred;
+        border: 1px solid $btnred;
+        background-color: transparent;
+        padding: 5px;
+        font-size: 16px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: .1s ease-in-out;
+
+        &:hover {
+            background: $btnred;
+            color: $white;
+        }
+    }
+
+    .addtop {
+        color: $btngreen;
+        border: 1px solid $btngreen;
+        background-color: transparent;
+        padding: 5px;
+        font-size: 16px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: .1s ease-in-out;
+
+        &:hover {
+            background: $btngreen;
+            color: $white;
+        }
+    }
+
+    .addday {
+        margin-top: 10px;
+        border: none;
+        color: $dark;
+        background: $primary;
+        padding: 10px;
+        display: block;
+        border-radius: 5px;
+        transition: .1s ease-in-out;
+        font-size: 16px;
+        cursor: pointer;
+
+        &:hover {
+            background: darken($primary, 10%);
+        }
+    }
+
+    textarea {
+        border: solid 1px $border;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    h4 {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .comment_suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 10px;
+        row-gap: 10px;
+
+        button {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background: #fff;
+            border: 1px solid $border;
+            border-radius: 15px;
+            transition: .1s ease-in-out;
+            cursor: pointer;
+
+            .circle {
+                background: $primary;
+                width: 20px;
+                aspect-ratio: 1/1;
+                border-radius: 100%;
+            }
+
+            p {
+                font-size: 16px;
+                margin-left: 10px;
+                margin-right: 5px;
+            }
+
+            &:hover {
+                background: darken($white, 5%);
+            }
+        }
+    }
+}

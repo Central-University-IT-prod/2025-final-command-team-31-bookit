@@ -1,0 +1,37 @@
+@import 'variables';
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    font-family: "Open Sans", serif;
+    text-decoration: none;
+    color: $black;
+}
+
+body {
+    background: #fafafa;
+}
+
+@import 'components/navbar.scss';
+@import 'components/footer.scss';
+@import 'components/container.scss';
+
+@import 'components/index/part1.scss';
+@import 'components/index/part2.scss';
+@import 'components/index/part3.scss';
+
+@import 'components/signin.scss';
+
+@import 'components/booking/part1.scss';
+@import 'components/booking/part2/part2_1.scss';
+@import 'components/booking/part2/part2_2.scss';
+@import 'components/booking/part2/part2_3.scss';
+@import 'components/booking/part2/part2_4.scss';
+@import 'components/booking/part2/part2_5.scss';
+@import 'components/booking/part2/part2_6.scss';
+@import 'components/booking/part3.scss';
+
+@import 'components/account.scss';

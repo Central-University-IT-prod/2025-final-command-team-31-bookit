@@ -1,0 +1,146 @@
+@import "../variables";
+
+.navbar {
+    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.1);
+    height: 50px;
+    background: $white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    .inner {
+        margin: 0 auto;
+        height: 100%;
+        padding: 0 $default_p;
+        max-width: $default_w;
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+
+        .left {
+            display: flex;
+            align-items: center;
+
+            h2 {
+                a {
+                    color: $black;
+                }
+            }
+        }
+
+        .right {
+            display: flex;
+
+            a {
+                display: flex;
+                height: 100%;
+                align-items: center;
+                padding: 0 10px;
+                color: $muted;
+                transition: .1s ease-in-out;
+
+                &:hover {
+                    color: $dark;
+                }
+            }
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            height: 100%;
+            width: 30px;
+            position: relative;
+
+            span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background-color: $dark;
+                margin: 3px 0;
+                transition: all 0.3s ease;
+                position: absolute;
+                left: 0;
+                border-radius: 4px;
+            }
+
+            span:nth-child(1) {
+                top: 18px;
+            }
+
+            span:nth-child(2) {
+                top: 24px;
+            }
+
+            span:nth-child(3) {
+                top: 30px;
+            }
+
+            &.active {
+                span:nth-child(1) {
+                    top: 24px;
+                    transform: rotate(45deg);
+                }
+
+                span:nth-child(2) {
+                    opacity: 0;
+                    transform: translateX(-30px);
+                }
+
+                span:nth-child(3) {
+                    top: 24px;
+                    transform: rotate(-45deg);
+                }
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .inner {
+            .hamburger {
+                display: flex;
+            }
+
+            .right {
+                position: absolute;
+                top: 50px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: $white;
+                padding: 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                transform: translateY(-150%);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+                z-index: 1;
+
+                &.active {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+
+                a {
+                    display: block;
+                    height: auto;
+                    padding: 15px 20px;
+                    text-align: center;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.navbar_spacer {
+    height: 50px;
+}

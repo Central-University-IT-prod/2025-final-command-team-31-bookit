@@ -1,0 +1,53 @@
+.booking_part3 {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .right {
+        display: flex;
+        column-gap: 10px;
+
+        .back {
+            border: none;
+            color: $dark;
+            background: $btnlight;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            transition: .1s ease-in-out;
+            font-size: 16px;
+            cursor: pointer;
+    
+            &:hover {
+                background: darken($btnlight, 10%);
+            }
+        }
+
+        .fwd {
+            border: none;
+            color: $dark;
+            background: $primary;
+            padding: 10px;
+            display: block;
+            border-radius: 5px;
+            transition: .1s ease-in-out;
+            font-size: 16px;
+            cursor: pointer;
+    
+            &:hover {
+                background: darken($primary, 10%);
+            }
+        }
+
+        .muted {
+            color: lighten($dark, 50%);
+            background: lighten($primary, 50%);
+            cursor: auto;
+    
+            &:hover {
+                background: lighten($primary, 50%);
+            }
+        }
+    }
+}

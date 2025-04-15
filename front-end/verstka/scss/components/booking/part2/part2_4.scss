@@ -1,0 +1,86 @@
+.booking_part2_4 {
+    margin-top: 30px;
+
+    #map {
+        width: 100%;
+        height: 60vh;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+        background: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+
+        & > button {
+            width: 20px;
+            aspect-ratio: 1/1;
+            border: none;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 3;
+            transition: filter .1s ease-in-out;
+            cursor: pointer;
+
+            &:hover {
+                filter: brightness(.9);
+            }
+        }
+
+        .empty {
+            color: $dark;
+            background: rgb(104, 255, 104);
+        }
+
+        .partial {
+            color: $dark;
+            background: rgb(255, 240, 108);
+        }
+
+        .full {
+            color: $dark;
+            background: rgb(255, 107, 107);
+        }
+
+        & > div {
+            background: $white;
+            border: solid 1px $border;
+            border-radius: 10px;
+            width: 200px;
+            padding: 5px;
+            position: absolute;
+            align-items: start;
+            display: none;
+            flex-direction: column;
+            overflow: none;
+
+            h3 {
+                padding-left: 30px;
+                min-height: 20px;
+                display: block;
+            }
+
+            p {
+                margin-top: 5px;
+            }
+
+            button {
+                margin-top: 5px;
+                border: none;
+                color: $dark;
+                background: $primary;
+                padding: 5px;
+                display: block;
+                border-radius: 5px;
+                transition: .1s ease-in-out;
+                font-size: 14px;
+                cursor: pointer;
+        
+                &:hover {
+                    background: darken($primary, 10%);
+                }
+            }
+        }
+    }
+}

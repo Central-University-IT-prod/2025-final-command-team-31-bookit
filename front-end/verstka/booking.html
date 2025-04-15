@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://api-maps.yandex.ru/v3/?apikey=REDACTED&lang=ru_RU"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="inner">
+            <div class="left">
+                <h2><a href="">BookIT</a></h2>
+            </div>
+            <div class="right">
+                <a href="">Главная</a>
+                <a href="">Забронировать</a>
+                <a href="">Личный кабинет</a>
+            </div>
+        </div>
+    </div>
+    <div class="navbar_spacer"></div>
+    <div class="booking_part1 container">
+        <button class="active">
+            <p>Выбор адреса</p>
+            <div class="line"></div>
+        </button>
+        <button>
+            <p>Выбор здания</p>
+            <div class="line"></div>
+        </button>
+        <button>
+            <p>Выбор этажа</p>
+            <div class="line"></div>
+        </button>
+        <button>
+            <p>Выбор мест</p>
+            <div class="line"></div>
+        </button>
+        <button>
+            <p>Выбор времени</p>
+            <div class="line"></div>
+        </button>
+        <button>
+            <p>Доп. опции</p>
+            <div class="line"></div>
+        </button>
+    </div>
+    <div class="booking_part2_1 container" style="display: none;">
+        <div id="yamap"></div>
+    </div>
+    <script>
+        var addresses = [
+            ["exampleid", "example address", 37.588144, 55.733842]
+        ]
+    </script>
+    <script>
+        function marker_select(id) {
+            alert(id);
+        }
+    </script>
+    <script>
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        ymaps3.ready.then(() => {
+            const {
+                YMap,
+                YMapDefaultSchemeLayer
+            } = ymaps3;
+
+            const map = new YMap(
+                document.getElementById('yamap'), {
+                location: {
+                    center: [37.588144, 55.733842],
+                    zoom: 5
+                }
+                }
+            );
+
+            map.addChild(new ymaps3.YMapDefaultSchemeLayer());
+            map.addChild(new ymaps3.YMapDefaultFeaturesLayer());
+
+            for (let index = 0; index < addresses.length; index++) {
+                let element = addresses[index];
+                if (element[2]) {
+                    let markerElement = document.createElement('div');
+                    markerElement.className = 'marker-class';
+                    markerElement.innerHTML = `
+                    <div>
+                        <button onclick="$('#marker_${index}').toggleClass('marker_show')">
+                            <img src="img/yamaps_icon.png">
+                        </button>
+                        <div id="marker_${index}">
+                            <p>${element[1]}</p>
+                            <button type="button" onclick="marker_select('${escapeHtml(element[0])}')">Выбрать</button>
+                        </div>
+                    </div>
+                    `;
+
+                    let marker = new ymaps3.YMapMarker({
+                        coordinates: [element[2], element[3]],
+                        },
+                        markerElement
+                    );
+                    map.addChild(marker);
+                }
+            }
+        });
+    </script>
+    <div class="booking_part2_2 container" style="display: none;">
+        <div class="card">
+            <div class="img" style="background-image: url(img/ts1.png);"></div>
+            <h3>Здание 1</h3>
+            <button>Выбрать</button>
+        </div>
+        <div class="card">
+            <div class="img" style="background-image: url(img/ts2.png);"></div>
+            <h3>Здание 2</h3>
+            <button>Выбрать</button>
+        </div>
+    </div>
+    <div class="booking_part2_3 container" style="display: none;">
+        <div class="list">
+            <div class="row">
+                <img src="img/floorl.png" alt="">
+                <button>Этаж 6</button>
+            </div>
+            <div class="row">
+                <img src="img/floorn.png" alt="">
+                <button>Этаж 5</button>
+            </div>
+            <div class="row">
+                <img src="img/floorn.png" alt="">
+                <button>Этаж 4</button>
+            </div>
+            <div class="row">
+                <img src="img/floorn.png" alt="">
+                <button>Этаж 3</button>
+            </div>
+            <div class="row">
+                <img src="img/floorn.png" alt="">
+                <button>Этаж 2</button>
+            </div>
+            <div class="row">
+                <img src="img/floor0.png" alt="">
+                <button>Этаж 1</button>
+            </div>
+        </div>
+    </div>
+    <div class="booking_part2_4 container" style="display: none;">
+        <div id="map">
+            <img src="img/floorplan.jpg" id="floorplan">
+        </div>
+    </div>
+    <script>
+        var seats = [
+            {
+                "id": "someid1",
+                "posx": .5,
+                "posy": .5,
+                "name": "Место 1",
+                "price": 300,
+                "status": "empty"
+            },
+            {
+                "id": "someid2",
+                "posx": .6,
+                "posy": .5,
+                "name": "Место 2",
+                "price": 200,
+                "status": "partial"
+            },
+            {
+                "id": "someid3",
+                "posx": .6,
+                "posy": .6,
+                "name": "Место 3",
+                "price": 0,
+                "status": "full"
+            }
+        ]
+    </script>
+    <script>
+        const market_dim = 20;
+        const marker_pad = 5;
+
+        var mousedown = false;
+
+        document.getElementById("floorplan").setAttribute('draggable', false);
+
+        var map_off_x = 0;
+        var map_off_y = 0;
+        var zoom = 1;
+
+        document.getElementById("map").addEventListener("mousemove", (event) => {
+            if (mousedown) {
+                map_off_x += event.movementX / zoom;
+                map_off_y += event.movementY / zoom;
+
+                document.getElementById("floorplan").style.transform = `translate(${map_off_x}px, ${map_off_y}px)`;
+
+                fixpos();
+            }
+        });
+
+        document.getElementById("map").addEventListener("mousedown", (event) => {
+            mousedown = true;
+        });
+
+        document.getElementById("map").addEventListener("mouseup", (event) => {
+            mousedown = false;
+        });
+
+        document.getElementById("map").addEventListener("mouseleave", (event) => {
+            mousedown = false;
+        });
+
+        document.getElementById("map").addEventListener("wheel", (event) => {
+            let zoomdelta = event.deltaY * .1 * -1;
+            let newzoom = zoom + zoomdelta;
+            newzoom = Math.min(Math.max(newzoom, .5), 3);
+
+            zoomdelta = newzoom - zoom;
+
+            //map_off_x *= newzoom / zoom;
+            //map_off_y *= newzoom / zoom;
+            
+            document.getElementById("floorplan").style.scale = `${newzoom}`;
+            document.getElementById("floorplan").style.transform = `translate(${map_off_x}px, ${map_off_y}px)`;
+
+            zoom = newzoom;
+
+            fixpos();
+            
+            event.preventDefault();
+        });
+
+        let addhtml = "";
+
+        for (let i = 0; i < seats.length; i ++) {
+            addhtml += `<button onclick='toggle_seat(${i})' id='seat_btn_${i}' class='${seats[i]['status']}'>${seats[i]['price'] > 0 ? '$' : ''}</button>`;
+            addhtml += `<div class='desc' id='seat_desc_${i}'>
+                <h3>${seats[i]['name']}</h3>    
+                <p>Цена: ${seats[i]['price']} руб/час</p>
+                <button>Выбрать</button>
+            </div>`;
+        }
+
+        document.getElementById("map").innerHTML += addhtml;
+
+        function fixpos() {
+            let imgw = document.getElementById("floorplan").clientWidth * zoom;
+            let imgh = document.getElementById("floorplan").clientHeight * zoom;
+            for (let i = 0; i < seats.length; i ++) {
+                document.getElementById(`seat_btn_${i}`).style.transform = `translate(${map_off_x * zoom - imgw / 2 + imgw * seats[i]['posx']}px, ${map_off_y * zoom - imgh / 2 + imgh * seats[i]['posy']}px)`;
+                let mw = document.getElementById(`seat_desc_${i}`).clientWidth;
+                let mh = document.getElementById(`seat_desc_${i}`).clientHeight;
+                let xpos = map_off_x * zoom - imgw / 2 + imgw * seats[i]['posx'] - marker_pad + mw / 2 - market_dim / 2;
+                let ypos = map_off_y * zoom - imgh / 2 + imgh * seats[i]['posy'] - marker_pad + mh / 2 - market_dim / 2;
+                document.getElementById(`seat_desc_${i}`).style.transform = `translate(${xpos}px, ${ypos}px)`;
+            }
+        }
+
+        var toggled_seat = -1;
+        function toggle_seat(i) {
+            untoggle_seats();
+            if (toggled_seat == -1 || toggled_seat != i) {
+                toggled_seat = i;
+                document.getElementById(`seat_btn_${i}`).style.zIndex = 5;
+                document.getElementById(`seat_desc_${i}`).style.zIndex = 4;
+                document.getElementById(`seat_desc_${i}`).style.display = 'flex';
+            } else {
+                toggled_seat = -1;
+            }
+            fixpos();
+        }
+
+        function untoggle_seats() {
+            for (let i = 0; i < seats.length; i ++) {
+                document.getElementById(`seat_btn_${i}`).style.zIndex = 3;
+                document.getElementById(`seat_desc_${i}`).style.zIndex = 0;
+                document.getElementById(`seat_desc_${i}`).style.display = 'none';
+            }
+        }
+
+        fixpos();
+    </script>
+    <div class="booking_part2_5 container" style="display: block;">
+        <h2>Еда</h2>
+        <div class="cards">
+            <button class="card active">
+                <div class="img" style="background-image: url(img/item1.jpg);"></div>
+                <h3>Кофе 1</h3>
+                <div class="price">300 руб</div>
+                <div class="qty">
+                    <a>-</a>
+                    <p>2</p>
+                    <a>+</a>
+                </div>
+            </button>
+            <button class="card">
+                <div class="img" style="background-image: url(img/item2.jpg);"></div>
+                <h3>Кофе 2</h3>
+                <div class="price">200 руб</div>
+            </button>
+            <button class="card">
+                <div class="img" style="background-image: url(img/item3.jpg);"></div>
+                <h3>Кофе 3</h3>
+                <div class="price">350 руб</div>
+            </button>
+        </div>
+        <h2>Оборудование</h2>
+        <div class="cards">
+            <button class="card">
+                <div class="img" style="background-image: url(img/item4.jpg);"></div>
+                <h3>Монитор</h3>
+                <div class="price">300 руб/час</div>
+            </button>
+            <button class="card">
+                <div class="img" style="background-image: url(img/item5.jpg);"></div>
+                <h3>Веб-камера</h3>
+                <div class="price">200 руб/час</div>
+            </button>
+            <button class="card">
+                <div class="img" style="background-image: url(img/item6.jpg);"></div>
+                <h3>Софтбокс</h3>
+                <div class="price">350 руб/час</div>
+            </button>
+        </div>
+    </div>
+    <div class="booking_part2_6 container">
+        <h3>Расписание работы коворкинга:</h3>
+        <table>
+            <tr>
+                <th></th>
+                <th>ПН</th>
+                <th>ВТ</th>
+                <th>СР</th>
+                <th>ЧТ</th>
+                <th>ПТ</th>
+                <th>СБ</th>
+                <th>ВС</th>
+            </tr>
+            <tr>
+                <td>Открытие</td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td rowspan="2">Выходной</td>
+                <td rowspan="2">Выходной</td>
+            </tr>
+            <tr>
+                <td>Закрытие</td>
+                <td><p class="time">23:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">23:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">23:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">23:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">23:00<span class="tz">+3 UTC</span></p></td>
+                <td></td>
+            </tr>
+        </table>
+        <h3>Бронирование:</h3>
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Время с</th>
+                <th>Время до</th>
+                <th>Действия</th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dateselect">
+                        <select>
+                            <option value="">03</option>
+                        </select>
+                        <p>.</p>
+                        <select>
+                            <option value="">03</option>
+                        </select>
+                        <p>.</p>
+                        <select>
+                            <option value="">2025</option>
+                        </select>
+                        <span class="dayofweek">(ПН)</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="timeselect">
+                        <input type="text" value="07">
+                        <p>:</p>
+                        <input type="text" value="00">
+                        <span class="tz">+3 UTC</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="timeselect">
+                        <input type="text" value="23">
+                        <p>:</p>
+                        <input type="text" value="00">
+                        <span class="tz">+3 UTC</span>
+                    </div>
+                </td>
+                <td>
+                    <button class="addtop">Добавить вверх</button>
+                    <button class="delete">Удалить</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dateselect">
+                        <select>
+                            <option value="">04</option>
+                        </select>
+                        <p>.</p>
+                        <select>
+                            <option value="">03</option>
+                        </select>
+                        <p>.</p>
+                        <select>
+                            <option value="">2025</option>
+                        </select>
+                        <span class="dayofweek">(ВТ)</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="timeselect">
+                        <input type="text" value="07">
+                        <p>:</p>
+                        <input type="text" value="00">
+                        <span class="tz">+3 UTC</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="timeselect">
+                        <input type="text" value="23">
+                        <p>:</p>
+                        <input type="text" value="00">
+                        <span class="tz">+3 UTC</span>
+                    </div>
+                </td>
+                <td>
+                    <button class="addtop">Добавить вверх</button>
+                    <button class="delete">Удалить</button>
+                </td>
+            </tr>
+        </table>
+        <button class="addday">+ Добавить день</button>
+        <h3>Чужие бронирования:</h3>
+        <table>
+            <tr>
+                <th>Дата</th>
+                <th>Время с</th>
+                <th>Время до</th>
+            </tr>
+            <tr>
+                <td><p class="time">03.03.2025 (ПН)</p></td>
+                <td><p class="time">07:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">09:00<span class="tz">+3 UTC</span></p></td>
+            </tr>
+            <tr>
+                <td><p class="time">03.03.2025 (ПН)</p></td>
+                <td><p class="time">18:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">21:00<span class="tz">+3 UTC</span></p></td>
+            </tr>
+            <tr>
+                <td><p class="time">04.03.2025 (ВТ)</p></td>
+                <td><p class="time">18:00<span class="tz">+3 UTC</span></p></td>
+                <td><p class="time">21:00<span class="tz">+3 UTC</span></p></td>
+            </tr>
+        </table>
+        <h3>Комментарий:</h3>
+        <textarea rows="3" placeholder="Ваши желания, предложения, требования"></textarea>
+        <h4>Предложеня:</h4>
+        <div class="comment_suggestions">
+            <button>
+                <div class="circle"></div>
+                <p>Приносите кофе 1 раз каждый день</p>
+            </button>
+            <button>
+                <div class="circle"></div>
+                <p>Помогите подняться на этаж</p>
+            </button>
+        </div>
+    </div>
+    <div class="booking_part3 container">
+        <h2>Итог: 0 руб</h2>
+        <div class="right">
+            <button class="back">Назад</button>
+            <button href="" class="fwd">Продолжить</button>
+        </div>
+    </div>
+    <div class="footer">
+        <h2>BookIT</h2>
+        <p>Права не защищены, 2025</p>
+    </div>
+</body>
+</html>
